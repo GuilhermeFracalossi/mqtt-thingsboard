@@ -1,0 +1,53 @@
+services:
+  mytb:
+    restart: always
+    image: "thingsboard/tb-postgres"
+    ports:
+      - "8080:9090"
+      - "1883:1883"
+      - "7070:7070"
+      - "5683-5688:5683-5688/udp"
+    environment:
+      TB_QUEUE_TYPE: in-memory
+    volumes:
+      - ~/.mytb-data:/data
+      - ~/.mytb-logs:/var/log/thingsboard
+  sensor1:
+    build: .
+    environment:
+      SENSOR_ID: 1
+      SENSOR_ACESS_TOKEN: ${TOKEN_SENSOR_1}
+      CSV_FILE: ${CSV_FILE}
+      THINGSBOARD_HOST: "mytb"  # Host do ThingsBoard
+    depends_on:
+      - mytb
+
+  sensor2:
+    build: .
+    environment:
+      SENSOR_ID: 2
+      SENSOR_ACESS_TOKEN: ${TOKEN_SENSOR_2}
+      CSV_FILE: ${CSV_FILE}
+      THINGSBOARD_HOST: "mytb"
+    depends_on:
+      - mytb
+
+  sensor3:
+    build: .
+    environment:
+      SENSOR_ID: 3
+      SENSOR_ACESS_TOKEN: ${TOKEN_SENSOR_3}
+      CSV_FILE: "${CSV_FILE}"
+      THINGSBOARD_HOST: "mytb"
+    depends_on:
+      - mytb
+
+  sensor4:
+    build: .
+    environment:
+      SENSOR_ID: 4
+      SENSOR_ACESS_TOKEN: ${TOKEN_SENSOR_4}
+      CSV_FILE: ${CSV_FILE}
+      THINGSBOARD_HOST: "mytb"
+    depends_on:
+      - mytb
