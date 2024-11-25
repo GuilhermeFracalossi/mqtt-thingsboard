@@ -23,7 +23,7 @@ go.work.sum
 
 # env file
 .env
-data
+
 data/*
 .mytb-data
 .mytb-logs
